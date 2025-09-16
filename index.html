@@ -2,6 +2,15 @@
 <html lang=en-us style>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
+
+<!-- Favicon for light mode -->
+<link rel="icon" type="image/png" href="Pictures/favicon-light.png" media="(prefers-color-scheme: light)">
+
+<!-- Favicon for dark mode -->
+<link rel="icon" type="image/png" href="Pictures/favicon-dark.png" media="(prefers-color-scheme: dark)">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 	@font-face {
 		font-family: "Montserrat";
@@ -2549,22 +2558,152 @@
 	.isotope-item:hover {
 		z-index: 3
 	}
-</style>
-<meta name=author content="Alice Bighetti 吳恩達">
-<meta name=description content="A highly-customizable Hugo academic resume theme powered by Wowchemy website builder.">
-<link rel=alternate hreflang=en-us href=https://academic-demo.netlify.app />
-<meta name=theme-color content=#1565c0>
-<style>
-	.sf-hidden {
-		display: none !important
+
+
+	/* === Toggle Styling === */
+
+	/* === Toggle Styling === */
+
+	/* === Toggle Styling === */
+
+	/* Container for sun/moon + slider */
+	.toggle-container {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 1.2rem;
+		color: #333;
+		/* default icon color in light mode */
 	}
-</style>
-<meta http-equiv=content-security-policy
-	content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:;">
-<style>
-	img[src="data:,"],
-	source[src="data:,"] {
-		display: none !important
+
+	/* Sun and moon icons */
+	.toggle-container .fa-sun {
+		color: #fbc531;
+		/* yellow sun */
+	}
+
+	.toggle-container .fa-moon {
+		color: #2c3e50;
+		/* dark moon */
+	}
+
+	/* Hide native checkbox */
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 50px;
+		height: 26px;
+	}
+
+	.switch input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	/* Slider track */
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		border-radius: 26px;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 20px;
+		width: 20px;
+		left: 3px;
+		bottom: 3px;
+		background-color: white;
+		border-radius: 50%;
+		transition: transform .4s;
+	}
+
+	/* Checked (active) state */
+	input:checked+.slider {
+		background-color: #4caf50;
+	}
+
+	input:checked+.slider:before {
+		transform: translateX(24px);
+	}
+
+	/* Rounded style */
+	.slider.round {
+		border-radius: 26px;
+	}
+
+	/* === Dark Mode Styles === */
+	body.dark-mode {
+		background-color: #181818;
+		/* dark grey */
+		color: #f1f1f1;
+	}
+
+	body.dark-mode .navbar {
+		background-color: #1e1e1e !important;
+	}
+
+	body.dark-mode a {
+		color: #9ad0ff !important;
+	}
+
+	/* Main wrappers and sections */
+	body.dark-mode .page-wrapper,
+	body.dark-mode .home-section,
+	body.dark-mode .container,
+	body.dark-mode .row,
+	body.dark-mode .home-section-bg {
+		background-color: #181818 !important;
+	}
+
+	/* Cards */
+	body.dark-mode .card {
+		background-color: #242424 !important;
+		color: #f1f1f1;
+		border-color: #333;
+	}
+
+	/* Card text/details */
+	body.dark-mode .card-text,
+	body.dark-mode .exp-meta,
+	body.dark-mode .article-metadata,
+	body.dark-mode .section-subheading.card-title.exp-title.text-muted.my-0 {
+		color: #f1f1f1 !important;
+	}
+
+	/* Headings */
+	body.dark-mode h1,
+	body.dark-mode h2,
+	body.dark-mode h3 {
+		color: #ffffff !important;
+	}
+
+	/* Toggle container + icons */
+	body.dark-mode .toggle-container {
+		color: #f1f1f1;
+	}
+
+	body.dark-mode .fa-sun {
+		color: #777;
+		/* dimmed in dark mode */
+	}
+
+	body.dark-mode .fa-moon {
+		color: #f1c40f;
+		/* bright moon highlight */
+	}
+
+	/* === Global Transition for Smooth Easing === */
+	body,
+	body * {
+		transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 	}
 </style>
 
@@ -2584,10 +2723,6 @@
 					<div class="d-none d-lg-inline-flex">
 						<a class=navbar-brand>Alimohammad Beigi</a>
 					</div>
-					<button type=button class="navbar-toggler sf-hidden" data-toggle=collapse
-						data-target=#navbar-content aria-controls=navbar-content aria-expanded=false
-						aria-label="Toggle navigation">
-					</button>
 					<div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none sf-hidden"></div>
 					<div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content>
 						<ul class="navbar-nav d-none d-lg-inline-flex">
@@ -2601,8 +2736,21 @@
 									data-target=#publications><span>Publications</span></a>
 							<li class=nav-item><a class=nav-link href="files/CV_AlimohammadBeigi.pdf"
 									download="CV"><span>CV</span></a>
+
+							<li class="nav-item d-flex align-items-center ml-3">
+								<div class="toggle-container">
+									<i class="fas fa-sun toggle-icon"></i>
+									<label class="switch mb-0">
+										<input type="checkbox" id="nightModeToggle">
+										<span class="slider round"></span>
+									</label>
+									<i class="fas fa-moon toggle-icon"></i>
+								</div>
+							</li>
+
 						</ul>
 					</div>
+
 					<li class="nav-item d-none d-lg-inline-flex">
 
 						<template shadowroot=closed>
@@ -2877,6 +3025,9 @@
 							</style>
 
 						</template></span>
+
+
+
 				</div>
 	</div>
 
@@ -2942,11 +3093,13 @@
 					<h1 class=mb-0>Education</h1>
 				</div>
 				<div class="col-12 col-lg-8">
+
+					<!-- PhD (moved to top) -->
 					<div class="row experience">
 						<div class="col-auto text-center flex-column d-none d-sm-flex">
 							<div class="row h-50">
-								<div class=col>&nbsp;</div>
-								<div class=col>&nbsp;</div>
+								<div class="col">&nbsp;</div>
+								<div class="col">&nbsp;</div>
 							</div>
 							<div class=m-2><span class="badge badge-pill border">&nbsp;</span></div>
 							<div class="row h-50">
@@ -2959,25 +3112,25 @@
 								<div class=card-body>
 									<div class="d-flex align-content-start">
 										<div class="mr-2 mb-2">
-											<img src="Pictures/utlogo.png" width=56px height=56px
-												alt="University of Tehran logo" loading=lazy>
+											<img src="Pictures/asulogo.png" width=56px height=56px
+												alt="Arizona State University logo" loading=lazy>
 										</div>
 										<div>
-											<div class="section-subheading card-title exp-title text-muted my-0">BSc in
-												Mathematics and Applications</div>
+											<div class="section-subheading card-title exp-title text-muted my-0">PhD in
+												Computer Science</div>
 											<div class="section-subheading card-title exp-company text-muted my-0">
-												University of Tehran</div>
-											<div class="text-muted exp-meta">2015–2020
-											</div>
+												Arizona State University</div>
+											<div class="text-muted exp-meta">2022–Current</div>
 										</div>
 									</div>
 									<div class=card-text>
 										<p>
 										<ul>
-											<li><i class="fa-li fas fa-graduation-cap"></i>
-												<div class=description>
-													<p class=course>Optimization: Linear and Non-Linear
-											<li>Algebra and Linear Numeric Algebra
+											<li>Data Mining and Machine Learning Lab
+												<ul>
+													<li>Item</li>
+													<li>Item</li>
+												</ul>
 										</ul>
 									</div>
 								</div>
@@ -2985,11 +3138,11 @@
 						</div>
 					</div>
 
+					<!-- MSc (unchanged) -->
 					<div class="row experience">
 						<div class="col-auto text-center flex-column d-none d-sm-flex">
 							<div class="row h-50">
 								<div class="col border-right">&nbsp;</div>
-
 								<div class=col>&nbsp;</div>
 							</div>
 							<div class=m-2><span class="badge badge-pill border">&nbsp;</span></div>
@@ -3011,13 +3164,13 @@
 												Computer Science</div>
 											<div class="section-subheading card-title exp-company text-muted my-0">
 												Shahid Beheshti University</div>
-											<div class="text-muted exp-meta">2020-2022</div>
+											<div class="text-muted exp-meta">2020–2022</div>
 										</div>
 									</div>
 									<div class=card-text>
 										<p>
 										<ul>
-											<li>Artificial Intelligence
+											<li>Artificial Intelligence</li>
 											<li>Machine Learning</li>
 											<li>Data Mining</li>
 											<li>Neural Networks</li>
@@ -3028,6 +3181,7 @@
 						</div>
 					</div>
 
+					<!-- BSc (moved to bottom) -->
 					<div class="row experience">
 						<div class="col-auto text-center flex-column d-none d-sm-flex">
 							<div class="row h-50">
@@ -3045,25 +3199,26 @@
 								<div class=card-body>
 									<div class="d-flex align-content-start">
 										<div class="mr-2 mb-2">
-											<img src="Pictures/asulogo.png" width=56px height=56px
-												alt="Arizona State University logo" loading=lazy>
+											<img src="Pictures/utlogo.png" width=56px height=56px
+												alt="University of Tehran logo" loading=lazy>
 										</div>
 										<div>
-											<div class="section-subheading card-title exp-title text-muted my-0">PhD in
-												Computer Science</div>
+											<div class="section-subheading card-title exp-title text-muted my-0">BSc in
+												Mathematics and Applications</div>
 											<div class="section-subheading card-title exp-company text-muted my-0">
-												Arizona State University</div>
-											<div class="text-muted exp-meta">2022-Current</div>
+												University of Tehran</div>
+											<div class="text-muted exp-meta">2015–2020</div>
 										</div>
 									</div>
 									<div class=card-text>
 										<p>
 										<ul>
-											<li>Data Mining and Machine Learning Lab
-												<ul>
-													<li>Item</li>
-													<li>Item</li>
-												</ul>
+											<li><i class="fa-li fas fa-graduation-cap"></i>
+												<div class=description>
+													<p class=course>Optimization: Linear and Non-Linear</p>
+												</div>
+											</li>
+											<li>Algebra and Linear Numeric Algebra</li>
 										</ul>
 									</div>
 								</div>
@@ -3074,9 +3229,8 @@
 				</div>
 			</div>
 		</div>
-
-
 	</section>
+
 
 
 	<!--
@@ -3144,92 +3298,190 @@ Jul 2020
 				</div>
 				<div class="col-12 col-lg-8">
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author">Z Tan, D Li, S Wang, <span
-									class=author-highlighted>Alimohammad Beigi</span>, B Jiang, A Bhattacharjee, M
-								Karami, J Li, ...</span>
-							<br><b>Large language models for data annotation and synthesis: A survey</b>
-							<br> Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing,
-							2024
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://aclanthology.org/2024.emnlp-main.313 target=_blank rel=noopener>PDF</a>
-						</p>
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<!-- Title row with icon + title -->
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>Large language models for data annotation and synthesis: A survey</b>
+						</div>
+
+						<!-- Authors -->
+						<div style="font-size:0.95em; margin-top:2px;">
+							Z Tan, D Li, S Wang, <span class="author-highlighted">Alimohammad Beigi</span>, Zhen Tan,
+							Dawei Li, Song Wang,
+							Bohan Jiang, Amrita Bhattacharjee, Mansooreh Karami, Jundong Li, Lu Cheng, Huan Liu
+						</div>
+
+						<!-- Venue + year -->
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, 2024
+						</div>
+
+						<!-- Links -->
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://aclanthology.org/2024.emnlp-main.54/" target="_blank"
+								rel="noopener">PDF</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author">D Li, B Jiang, L Huang, <span
-									class=author-highlighted>Alimohammad Beigi</span>, C Zhao, Z Tan, A Bhattacharjee, Y
-								Jiang, ...</span>
-							<br><b>From generation to judgment: Opportunities and challenges of LLM-as-a-judge</b>
-							<br> Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing,
-							2025
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://aclanthology.org/2025.emnlp-main.31 target=_blank rel=noopener>PDF</a>
-						</p>
+
+
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<!-- Title row with icon + title -->
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>From generation to judgment: Opportunities and challenges of LLM-as-a-judge</b>
+						</div>
+
+						<!-- Authors -->
+						<div style="font-size:0.95em; margin-top:2px;">
+							Dawei Li, Bohan Jiang, Liangjie Huang, <span class="author-highlighted">Alimohammad
+								Beigi</span>, Chengshuai Zhao,
+							Zhen Tan, Amrita Bhattacharjee, Yuxuan Jiang, Canyu Chen, Tianhao Wu, Kai Shu, Lu Cheng,
+							Huan Liu
+						</div>
+
+						<!-- Venue + year -->
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing, 2025
+						</div>
+
+						<!-- Links -->
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://arxiv.org/pdf/2411.16594" target="_blank" rel="noopener">PDF</a>
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://llm-as-a-judge.github.io/" target="_blank" rel="noopener">Project</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author"><span class=author-highlighted>Alimohammad
-									Beigi</span>, Z Tan, N Mudiam, C Chen, K Shu, H Liu</span>
-							<br><b>Model Attribution in LLM-Generated Disinformation: A Domain Generalization Approach
-								with Supervised Contrastive Learning</b>
-							<br> 2024 IEEE 11th International Conference on Data Science and Advanced Analytics (DSAA)
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://doi.org/10.1109/DSAA.2024 target=_blank rel=noopener>PDF</a>
-						</p>
+
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<!-- Title row with icon + title -->
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>Model Attribution in LLM-Generated Disinformation: A Domain Generalization Approach with
+								Supervised Contrastive Learning</b>
+						</div>
+
+						<!-- Authors -->
+						<div style="font-size:0.95em; margin-top:2px;">
+							<span class="author-highlighted">Alimohammad Beigi</span>, Z Tan, N Mudiam, C Chen, K Shu, H
+							Liu
+						</div>
+
+						<!-- Venue + year -->
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							2024 IEEE 11th International Conference on Data Science and Advanced Analytics (DSAA)
+						</div>
+
+						<!-- Links -->
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://ieeexplore.ieee.org/abstract/document/10722818" target="_blank"
+								rel="noopener">PDF</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author"><span class=author-highlighted>Alimohammad
-									Beigi</span>, B Jiang, D Li, Z Tan, P Shaeri, T Kumarage, A Bhattacharjee,
-								...</span>
-							<br><b>Can LLMs Improve Multimodal Fact-Checking by Asking Relevant Questions?</b>
-							<br> arXiv preprint arXiv:2410.04616, 2024
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://arxiv.org/abs/2410.04616 target=_blank rel=noopener>PDF</a>
-						</p>
+
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<!-- Title row with icon + title -->
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>Can LLMs Improve Multimodal Fact-Checking by Asking Relevant Questions?</b>
+						</div>
+
+						<!-- Authors -->
+						<div style="font-size:0.95em; margin-top:2px;">
+							<span class="author-highlighted">Alimohammad Beigi</span>, Bohan Jiang, Dawei Li, Zhen Tan,
+							Pouya Shaeri,
+							Tharindu Kumarage, Amrita Bhattacharjee, Huan Liu
+						</div>
+
+						<!-- Venue + year -->
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							arXiv preprint arXiv:2410.04616, 2024
+						</div>
+
+						<!-- Links -->
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://arxiv.org/abs/2410.04616" target="_blank" rel="noopener">PDF</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author">U Jeong, <span
-									class=author-highlighted>Alimohammad Beigi</span>, A Tahir, SX Tang, HR Bernard, H
-								Liu</span>
-							<br><b>FediverseSharing: A Novel Dataset on Cross-Platform Interaction Dynamics between
-								Threads and Mastodon Users</b>
-							<br> 🏆 Best Paper Award: Advances in Social Network Analysis and Mining (ASONAM), 2025
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://doi.org/10.1145/asonam.2025 target=_blank rel=noopener>PDF</a>
-						</p>
+
+					<!-- FediverseSharing -->
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>FediverseSharing: A Novel Dataset on Cross-Platform Interaction Dynamics between Threads
+								and Mastodon Users</b>
+						</div>
+
+						<div style="font-size:0.95em; margin-top:2px;">
+							U Jeong, <span class="author-highlighted">Alimohammad Beigi</span>, A Tahir, SX Tang, HR
+							Bernard, H Liu
+						</div>
+
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							🏆 Best Paper Award: Advances in Social Network Analysis and Mining (ASONAM), 2025
+						</div>
+
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://dl.acm.org/doi/10.1145/3677460.3678479" target="_blank"
+								rel="noopener">PDF</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author">P Shaeri, Y Mohammadpour, <span
-									class=author-highlighted>Alimohammad Beigi</span>, A Middel, H Liu</span>
-							<br><b>Sentiment and Social Signals in the Climate Crisis: A Survey on Analyzing Social
-								Media Responses to Extreme Weather Events</b>
-							<br> arXiv preprint arXiv:2504.18837, 2025
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://arxiv.org/abs/2504.18837 target=_blank rel=noopener>PDF</a>
-						</p>
+					<!-- Sentiment and Social Signals -->
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>Sentiment and Social Signals in the Climate Crisis: A Survey on Analyzing Social Media
+								Responses to Extreme Weather Events</b>
+						</div>
+
+						<div style="font-size:0.95em; margin-top:2px;">
+							P Shaeri, Y Mohammadpour, <span class="author-highlighted">Alimohammad Beigi</span>, A
+							Middel, H Liu
+						</div>
+
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							arXiv preprint arXiv:2504.18837, 2025
+						</div>
+
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://arxiv.org/abs/2504.18837" target="_blank" rel="noopener">PDF</a>
+						</div>
 					</div>
 
-					<div class="pub-list-item view-citation" style=margin-bottom:1rem><i
-							class="far fa-file-alt pub-icon" aria-hidden=true></i>
-						<p><span class="article-metadata li-cite-author">M Sheibanian, P Shaeri, <span
-									class=author-highlighted>Alimohammad Beigi</span>, RT Woo, A Keluskar</span>
-							<br><b>Tri-Accel: Curvature-Aware Precision-Adaptive and Memory-Elastic Optimization for
+					<!-- Tri-Accel -->
+					<div class="pub-list-item view-citation" style="margin-bottom:1rem;">
+						<div style="display:flex; align-items:center; gap:0.5rem;">
+							<i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+							<b>Tri-Accel: Curvature-Aware Precision-Adaptive and Memory-Elastic Optimization for
 								Efficient GPU Usage</b>
-							<br> arXiv preprint arXiv:2508.16905, 2025
-							<br><a class="btn btn-outline-primary btn-page-header btn-sm"
-								href=https://arxiv.org/abs/2508.16905 target=_blank rel=noopener>PDF</a>
-						</p>
+						</div>
+
+						<div style="font-size:0.95em; margin-top:2px;">
+							M Sheibanian, P Shaeri, <span class="author-highlighted">Alimohammad Beigi</span>, RT Woo, A
+							Keluskar
+						</div>
+
+						<div style="font-size:0.9em; margin-top:2px; font-style:italic;">
+							arXiv preprint arXiv:2508.16905, 2025
+						</div>
+
+						<div style="margin-top:3px;">
+							<a class="btn btn-outline-primary btn-page-header btn-sm"
+								href="https://arxiv.org/abs/2508.16905" target="_blank" rel="noopener">PDF</a>
+						</div>
 					</div>
+
 
 				</div>
 			</div>
@@ -3267,3 +3519,24 @@ Jul 2020
 		</template></grammarly-desktop-integration>
 	<script
 		data-template-shadow-root>(() => { document.currentScript.remove(); processNode(document); function processNode(node) { node.querySelectorAll("template[shadowroot]").forEach(element => { let shadowRoot = element.parentElement.shadowRoot; if (!shadowRoot) { try { shadowRoot = element.parentElement.attachShadow({ mode: element.getAttribute("shadowroot") }); shadowRoot.innerHTML = element.innerHTML; element.remove() } catch (error) { } if (shadowRoot) { processNode(shadowRoot) } } }) } })()</script>
+
+	<script>
+		const toggle = document.getElementById('nightModeToggle');
+		const body = document.body;
+
+		// Load preference
+		if (localStorage.getItem('nightMode') === 'enabled') {
+			body.classList.add('dark-mode');
+			toggle.checked = true;
+		}
+
+		toggle.addEventListener('change', () => {
+			if (toggle.checked) {
+				body.classList.add('dark-mode');
+				localStorage.setItem('nightMode', 'enabled');
+			} else {
+				body.classList.remove('dark-mode');
+				localStorage.setItem('nightMode', 'disabled');
+			}
+		});
+	</script>
